@@ -14,8 +14,9 @@ services:
       - 8080:8080
     volumes:
       - .:/root/app
+
   localstack:
-    image: localstack/localstack:0.12.9
+    image: localstack/localstack
     environment:
       SERVICES: dynamodb
       DATA_DIR: /tmp/localstack/data
@@ -24,6 +25,13 @@ services:
     volumes:
       - localstack-data:/tmp/localstack/data
       - /var/run/docker.sock:/var/run/docker.sock
+
+  dynamodb-admin:
+    image: aaronshaf/dynamodb-admin
+    environment:
+      DYNAMO_ENDPOINT: 'http://localstack:4566'
+    ports:
+      - 8001:8001
 
 volumes:
   localstack-data:
