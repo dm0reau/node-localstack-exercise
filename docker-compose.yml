@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  api:
+    image: node:14-alpine
+    command: npm run dev
+    working_dir: /root/app
+    environment:
+      NODE_ENV: development
+      PORT: 8080
+      HOST: 0.0.0.0
+      APP_KEY: QRVrjkf0dhZ-uiJV5pDfAb60oYgfKAF
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/root/app
+  localstack:
+    image: localstack/localstack:0.12.9
+    environment:
+      SERVICES: dynamodb
+      DATA_DIR: /tmp/localstack/data
+    ports:
+      - 4566:4566
+    volumes:
+      - localstack-data:/tmp/localstack/data
+      - /var/run/docker.sock:/var/run/docker.sock
+
+volumes:
+  localstack-data:
